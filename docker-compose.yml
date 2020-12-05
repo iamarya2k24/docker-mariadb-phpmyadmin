@@ -1,0 +1,50 @@
+version: '2.1'
+
+services:
+  mariadb:
+    image: 'docker.io/bitnami/mariadb:10.5-debian-10'
+    ports:
+      - '3336:3306'
+    volumes:
+      - "mariadb_data:/bitnami/mariadb"
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=no
+      - MARIADB_ROOT_PASSWORD=&oBqm%AF@gJr
+      - PUID=1000
+      - PGID=1000
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mariadb/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+    networks:
+       - global-backend-network
+
+  #adminer:
+    #image: adminer
+    #restart: always
+    #ports:
+    #  - 8086:8080
+    #networks:
+    #   - global-backend-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8086:80
+    environment:
+      - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=100M
+    networks:
+       - global-backend-network
+
+volumes:
+  mariadb_data:
+    driver: local
+
+networks:
+  global-backend-network:
+    external:
+      name: ee-global-backend-network
