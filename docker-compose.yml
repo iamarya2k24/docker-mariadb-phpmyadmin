@@ -10,7 +10,7 @@ services:
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=no
-      - MARIADB_ROOT_PASSWORD=&oBqm%AF@gJr
+      - MARIADB_ROOT_PASSWORD=<REPLACE PASSWORD>
       - PUID=1000
       - PGID=1000
     healthcheck:
